@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>幸運抽籤｜LINE / TG 一對一抽籤工具</title>
+<style>
+:root{--blue:#1598ff;--pink:#ff3f91;--ink:#24324a;--muted:#718096;--bg:#f5f8ff;--card:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.top{height:62px;background:#fff;border-bottom:1px solid #e7ecf5;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:5}
+.brand{font-weight:900;font-size:20px}.brand span{color:var(--pink)}.tabs{display:flex;gap:8px}.tab{border:0;background:#eef3fb;padding:9px 14px;border-radius:12px}.tab.active{background:#1e3a5f;color:#fff}
+.wrap{max-width:1180px;margin:20px auto;padding:0 14px}.grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}
+.card{background:var(--card);border:1px solid #e6ebf3;border-radius:22px;box-shadow:0 10px 30px #26364a12;overflow:hidden}
+.stage{padding:20px;background:linear-gradient(#b9e7ff,#fff6f0)}.hero{height:300px;border-radius:18px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:
+radial-gradient(circle at 20% 25%,#fff 0 4px,transparent 5px),radial-gradient(circle at 80% 20%,#fff 0 5px,transparent 6px),
+linear-gradient(#53c7ff 0 52%,#1cc4dd 52% 62%,#f7d59b 62%);image-rendering:pixelated}
+.pixelGirl{position:relative;width:180px;height:245px;filter:drop-shadow(8px 10px 0 #ffffff44)}
+.pixelGirl .hair{position:absolute;left:38px;top:18px;width:105px;height:130px;background:#5b2c22;border-radius:48% 52% 45% 55%;box-shadow:inset -15px 10px #8e4a34}
+.pixelGirl .face{position:absolute;left:57px;top:42px;width:68px;height:76px;background:#ffd0b4;border-radius:45%;box-shadow:0 0 0 5px #f6b693}
+.pixelGirl .eye{position:absolute;top:75px;width:7px;height:11px;background:#372b43;border-radius:50%}.pixelGirl .e1{left:73px}.pixelGirl .e2{left:101px}
+.pixelGirl .smile{position:absolute;left:84px;top:96px;width:18px;height:9px;border-bottom:4px solid #d24c69;border-radius:50%}
+.pixelGirl .body{position:absolute;left:42px;top:115px;width:105px;height:95px;background:#20a9e8;clip-path:polygon(16% 0,84% 0,100% 35%,78% 100%,22% 100%,0 35%);border:5px solid #fff}
+.pixelGirl .leg{position:absolute;top:190px;width:28px;height:48px;background:#ffd0b4;border-radius:12px}.pixelGirl .l1{left:53px;transform:rotate(8deg)}.pixelGirl .l2{left:112px;transform:rotate(-10deg)}
+.heroTitle{position:absolute;left:18px;top:14px;color:#fff;text-shadow:3px 3px #24608c;font-size:27px;font-weight:1000}.count{position:absolute;right:16px;top:15px;background:#173d63cc;color:#fff;padding:8px 12px;border-radius:99px}
+.carousel{display:flex;gap:8px;overflow:auto;padding:14px 2px}.thumb{min-width:76px;height:58px;border-radius:12px;background:#fff;border:3px solid #fff;box-shadow:0 2px 8px #0002;display:grid;place-items:center;font-weight:900}.thumb.on{border-color:var(--pink);transform:translateY(-3px)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}.action{border:0;color:#fff;border-radius:15px;padding:16px;font-weight:900;font-size:17px}.customer{background:var(--blue)}.editor{background:var(--pink)}
+.result{margin-top:14px;padding:15px;border-radius:15px;background:#fff;text-align:center;font-weight:900;display:none}.result.show{display:block}
+.chat{padding:18px}.chat h3{margin:0 0 10px}.chatbox{height:330px;background:#f2f5f9;border-radius:16px;padding:12px;overflow:auto}.msg{max-width:82%;padding:10px 12px;border-radius:14px;margin:7px 0;background:#fff}.msg.me{margin-left:auto;background:#d7f6c8}.chatbar{display:flex;gap:8px;margin-top:10px}.chatbar input{flex:1;border:1px solid #d8e0ec;border-radius:12px;padding:10px}.send{border:0;background:#24324a;color:#fff;border-radius:12px;padding:0 15px}
+.side{padding:18px}.side h2{font-size:18px;margin:0 0 12px}.field{margin:10px 0}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:5px}.field input,.field textarea,.field select{width:100%;border:1px solid #d9e1ed;border-radius:10px;padding:9px;background:#fff}.row{display:grid;grid-template-columns:1fr 90px 38px;gap:7px;margin:8px 0}.del{border:0;background:#ffe8ef;color:#d32f61;border-radius:10px}.add,.save{border:0;background:#24324a;color:#fff;border-radius:10px;padding:9px 12px}.save{background:#1b9b65;width:100%;margin-top:10px}.links{display:grid;grid-template-columns:1fr 1fr;gap:8px}.link{display:block;text-align:center;text-decoration:none;color:#fff;padding:10px;border-radius:10px;font-weight:800}.line{background:#06c755}.tg{background:#229ed9}.notice{font-size:12px;color:#68758a;line-height:1.6;background:#f7f9fc;padding:10px;border-radius:10px;margin-top:12px}
+.hidden{display:none!important}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.side{order:2}.chat{order:3}}
+@media(max-width:560px){.actions{grid-template-columns:1fr}.hero{height:255px}.pixelGirl{transform:scale(.85)}.wrap{padding:0 9px}.stage{padding:12px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">💗 幸運<span>抽籤</span></div>
+  <div class="tabs"><button class="tab active" id="frontTab">抽籤頁</button><button class="tab" id="adminTab">後台設定</button></div>
+</header>
+
+<main class="wrap">
+<section id="front">
+<div class="grid">
+  <div class="card stage">
+    <div class="hero">
+      <div class="heroTitle">幸運抽籤<br><small>抽一個好運，讓今天更特別！</small></div>
+      <div class="count" id="counter">10 / 10</div>
+      <div class="pixelGirl" id="girl"><div class="hair"></div><div class="face"></div><div class="eye e1"></div><div class="eye e2"></div><div class="smile"></div><div class="body"></div><div class="leg l1"></div><div class="leg l2"></div></div>
+    </div>
+    <div class="carousel" id="carousel"></div>
+    <div class="actions">
+      <button class="action customer" id="customerBtn">👤 客人抽籤<small style="display:block;opacity:.8">讓客人選擇自己的好運</small></button>
+      <button class="action editor" id="editorBtn">👤 小編抽籤<small style="display:block;opacity:.8">由小編幫客人抽一個</small></button>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <div class="card chat">
+    <h3>💬 LINE / TG 一對一互動</h3>
+    <div class="chatbox" id="chatbox">
+      <div class="msg">您好！點下面按鈕即可開始抽籤 🎉</div>
+    </div>
+    <div class="chatbar"><input id="chatInput" placeholder="輸入訊息…"><button class="send" id="sendBtn">送出</button></div>
+    <div class="links" style="margin-top:10px">
+      <a class="link line" id="lineLink" href="#" target="_blank">LINE 進入</a>
+      <a class="link tg" id="tgLink" href="#" target="_blank">Telegram 進入</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="admin" class="hidden">
+<div class="grid">
+  <div class="card side">
+    <h2>⚙️ 抽籤選項編輯</h2>
+    <div id="options"></div>
+    <button class="add" id="addBtn">＋ 新增抽籤選項</button>
+    <div class="field"><label>LINE Bot / 官方帳號連結</label><input id="lineUrl" placeholder="https://lin.ee/xxxxx"></div>
+    <div class="field"><label>Telegram Bot / 聊天連結</label><input id="tgUrl" placeholder="https://t.me/your_bot"></div>
+    <div class="field"><label>抽籤完成訊息</label><textarea id="doneMsg" rows="3"></textarea></div>
+    <button class="save" id="saveBtn">儲存設定</button>
+    <div class="notice">本版本資料會儲存在瀏覽器 localStorage。若要「不同客戶各自一對一、結果同步回 LINE/TG」，需再接後端 Webhook / Bot API；本頁已預留連結與訊息介面。</div>
+  </div>
+  <div class="card side">
+    <h2>🖼️ 10 圖案輪播</h2>
+    <p style="color:#68758a;font-size:13px">目前使用像素風泳裝角色作為示意圖；可替換成你的 10 張實際圖片 URL。</p>
+    <div id="imageInputs"></div>
+    <button class="save" id="imageSave">儲存圖片設定</button>
+  </div>
+</div>
+</section>
+</main>
+
+<script>
+const KEY='lucky_draw_v1';
+const defaultData={
+ options:[
+  ['獎品 A：精美小禮物',10],['獎品 B：飲料兌換券',10],['獎品 C：折扣券',10],['獎品 D：神秘驚喜',10],['獎品 E：小點心',10],
+  ['獎品 F：生活小物',10],['獎品 G：現金折扣',10],['獎品 H：加碼好禮',10],['獎品 I：限量禮遇',10],['獎品 J：特別大獎',10]
+ ],
+ line:'https://lin.ee/',
+ tg:'https://t.me/',
+ msg:'恭喜你抽到「{prize}」！謝謝參加 💗',
+ images:Array.from({length:10},(_,i)=>'')
+};
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||defaultData;
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function renderOptions(){
+ $('options').innerHTML='';
+ data.options.forEach((o,i)=>{
+  const row=document.createElement('div');row.className='row';
+  row.innerHTML=`<input value="${esc(o[0])}" data-i="${i}" data-k="n"><input type="number" min="0" max="100" value="${o[1]}" data-i="${i}" data-k="p"><button class="del" data-del="${i}">×</button>`;
+  $('options').appendChild(row);
+ });
+ document.querySelectorAll('[data-k]').forEach(el=>el.oninput=()=>{data.options[el.dataset.i][el.dataset.k==='n'?0:1]=el.dataset.k==='n'?el.value:Number(el.value)});
+ document.querySelectorAll('[data-del]').forEach(el=>el.onclick=()=>{if(data.options.length>2){data.options.splice(+el.dataset.del,1);save();renderOptions()}});
+ $('lineUrl').value=data.line;$('tgUrl').value=data.tg;$('doneMsg').value=data.msg;
+}
+function renderCarousel(){
+ $('carousel').innerHTML='';
+ for(let i=0;i<10;i++){const b=document.createElement('div');b.className='thumb'+(i===0?' on':'');b.textContent=String(i+1).padStart(2,'0');b.dataset.i=i;$('carousel').appendChild(b)}
+}
+function esc(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;')}
+function weightedPick(){
+ const valid=data.options.filter(x=>Number(x[1])>0);let total=valid.reduce((a,x)=>a+Number(x[1]),0);let r=Math.random()*total;
+ for(const x of valid){r-=Number(x[1]);if(r<0)return x[0]}return valid.at(-1)[0];
+}
+function draw(mode){
+ const girl=$('girl'), result=$('result'), carousel=[...document.querySelectorAll('.thumb')];
+ result.classList.remove('show');
+ let n=0, timer=setInterval(()=>{
+   carousel.forEach(x=>x.classList.remove('on'));
+   const idx=Math.floor(Math.random()*10);carousel[idx].classList.add('on');$('counter').textContent=(idx+1)+' / 10';
+   girl.style.transform=`translateX(${Math.random()*10-5}px) scale(${.82+Math.random()*.2})`; n++;
+   if(n>=24){clearInterval(timer);girl.style.transform='';const prize=weightedPick();result.innerHTML=`🎉 ${mode==='customer'?'客人':'小編'}抽籤結果：<strong>${esc(prize)}</strong>`;result.classList.add('show');addMsg(data.msg.replace('{prize}',prize));}
+ },75);
+}
+function addMsg(t,me=false){const d=document.createElement('div');d.className='msg'+(me?' me':'');d.textContent=t;$('chatbox').appendChild(d);$('chatbox').scrollTop=99999}
+$('customerBtn').onclick=()=>draw('customer');$('editorBtn').onclick=()=>draw('editor');
+$('sendBtn').onclick=()=>{let v=$('chatInput').value.trim();if(!v)return;addMsg(v,true);$('chatInput').value='';setTimeout(()=>addMsg('收到～你也可以直接點「客人抽籤」開始 🎉'),300)}
+$('chatInput').onkeydown=e=>{if(e.key==='Enter')$('sendBtn').click()}
+$('frontTab').onclick=()=>{ $('front').classList.remove('hidden');$('admin').classList.add('hidden');$('frontTab').classList.add('active');$('adminTab').classList.remove('active')}
+$('adminTab').onclick=()=>{ $('admin').classList.remove('hidden');$('front').classList.add('hidden');$('adminTab').classList.add('active');$('frontTab').classList.remove('active');renderOptions()}
+$('addBtn').onclick=()=>{data.options.push(['新獎項',10]);renderOptions()}
+$('saveBtn').onclick=()=>{data.line=$('lineUrl').value.trim();data.tg=$('tgUrl').value.trim();data.msg=$('doneMsg').value.trim()||defaultData.msg;save();updateLinks();alert('設定已儲存')}
+function updateLinks(){$('lineLink').href=data.line||'#';$('tgLink').href=data.tg||'#'}
+renderCarousel();renderOptions();updateLinks();
+</script>
+</body>
+</html>
